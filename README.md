@@ -4,6 +4,4 @@ Esse repositório contém o script SQL que implementa o schema e regra de negóc
 # Responsáveis
 Este código foi implementado por:
 
-Hyago Figueiredo    - 170105067
-Priscila Silva      - 190094699
-Victor de Oliveira  - 190129794
+Priscila Silva - 190094699
