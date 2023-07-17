@@ -68,19 +68,15 @@
                     </form>
             {% endif %}
         </header>
-        <div style="display: flex; justify-content: center; color: #4851A2">
-            <h1> Faça sua denúncia! </h1>
+        <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem; align-items: center;">
+            {% for denuncia in data %}
+                <div style="border: 1px solid #F0A929; width: 40rem; padding: 1rem; border-radius: 10px;">
+                    {% if denuncia[2] == 0%}
+                        <h3>Não avaliada</h3>
+                    {% endif %}
+                    <p> comentario: {{ denuncia[1] }}</p>
+                </div>
+            {% endfor %}
         </div>
-        <form method="post" style="margin-bottom: 2rem; display: flex; justify-content: center;">
-            <div style="display: flex;flex-direction: column; gap: 1rem; align-items: left; max-width: 40rem">             
-                <div style="display: flex;flex-direction: column; gap: 1rem;">
-                    <label for="comentario" style="font-size: 16px; color: #4851A2; font-weight: bold;">Descreva o motivo:</label>
-                    <textarea name="comentario" id="comentario" style="padding: 1rem; border-radius: 10px; border: 2px solid #F0A929; font-size: 16px;"></textarea>
-                </div>
-                <div style="width: 5rem;">
-                    <button type="submit" style="background-color: #CA549B; border: none; padding: 1rem 2rem; border-radius: 10px; color: white; font-weight: bold; font-size: 16px;">Confirmar</button>
-                </div>
-            </div>
-        </form>
     </body>
 </html>

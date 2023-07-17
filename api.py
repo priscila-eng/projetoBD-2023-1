@@ -146,18 +146,18 @@ def criarDenuncia(id, tipo):
         conn = mysql.connect()
         cursor = conn.cursor()
         if tipo == "professor":
-            cursor.execute('''INSERT INTO DenunciaProfessor (comentario, status, codAvaliacaoProfessorDenuncia) VALUES (%s,false,%s)''', (comentario,id))
+            cursor.execute('''INSERT INTO DenunciaProfessor (comentario, status, codAvaliacaoProfessorDenuncia, codUsuarioDenunciaProfessor) VALUES (%s,false,%s,%s)''', (comentario,id,user[0][0]))
             conn.commit()
             cursor.close()
             conn.close()
-            return redirect(url_for('home'))
+            return redirect(url_for('minhasDenunciasProfessor'))
         elif tipo == "turma":
-            cursor.execute('''INSERT INTO DenunciaTurma (comentario, status, codDenunciaTurmaAvaliacao) VALUES (%s,false,%s)''', (comentario,id))
+            cursor.execute('''INSERT INTO DenunciaTurma (comentario, status, codDenunciaTurmaAvaliacao, codUsuarioDenunciaTurma) VALUES (%s,false,%s,%s)''', (comentario,id,user[0][0]))
             conn.commit()
             cursor.close()
             conn.close()
-            return redirect(url_for('avaliacaoTurma'))
-    return render_template('criarDenuncia.html')
+            return redirect(url_for('minhasDenunciasTurma'))
+    return render_template('criarDenuncia.html', user=user)
 
 @app.route('/adicionarAvaliacaoProfessor', methods=['POST', 'GET'])
 def adicionarAvaliacaoProfessor():
@@ -232,3 +232,80 @@ def home():
     if not user:
         return redirect(url_for('login'))
     return render_template('home.html', data=data, user=user)
+
+@app.route('/perfil', methods=['GET'])
+def perfil():
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    user = session['user']
+    cursor.execute('SELECT * FROM Usuario u where u.idUsuario = %s', (user[0][0]))
+    data = cursor.fetchall()
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return render_template('meuPerfil.html', data=data, user=user)
+
+@app.route('/deleteUsuario/<int:id>', methods=['POST'])
+def deletarUsuario(id):
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    user = session['user']
+    if user[0][0] == id or user[0][4]:
+        cursor.execute('DELETE FROM Usuario u where u.idUsuario = %s', (id))
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return render_template('register.html')
+
+@app.route('/verDenunciasTurma', methods=['GET'])
+def minhasDenunciasTurma():
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    user = session['user']
+    cursor.execute('SELECT * FROM DenunciaTurma dt where dt.codUsuarioDenunciaTurma = %s', (user[0][0]))
+    data = cursor.fetchall()
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return render_template('minhasDenunciasTurma.html', data=data, user=user)
+
+@app.route('/verDenunciasProfessor', methods=['GET'])
+def minhasDenunciasProfessor():
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    user = session['user']
+    cursor.execute('SELECT * FROM DenunciaProfessor dp where dp.codUsuarioDenunciaProfessor = %s', (user[0][0]))
+    data = cursor.fetchall()
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return render_template('minhasDenunciasProfessor.html', data=data, user=user)
+
+@app.route('/editarUsuario/<int:id>', methods=['GET', 'POST'])
+def editarUsuario(id):
+    user = session['user']
+    if request.method == 'POST':
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        matricula = request.form.get('matricula')
+        curso = request.form.get('curso')
+        senha = request.form.get('senha')
+        if (user[0][0] == id or user[0][4]) and (matricula and curso and senha):
+            cursor.execute('UPDATE Usuario u SET matricula=%s, curso=%s, senha=%s where u.idUsuario = %s', (matricula, curso, senha, id))
+        elif (user[0][0] == id or user[0][4]) and (matricula and not curso and not senha):
+            cursor.execute('UPDATE Usuario u SET matricula=%s where u.idUsuario = %s', (matricula, id))
+        elif (user[0][0] == id or user[0]) and (matricula and curso and not senha):
+            cursor.execute('UPDATE Usuario u SET matricula=%s, curso=%s where u.idUsuario = %s', (matricula, curso, id))
+        elif (user[0][0] == id or user[0]) and (matricula and not curso and senha):
+            cursor.execute('UPDATE Usuario u SET matricula=%s, senha=%s where u.idUsuario = %s', (matricula, senha, id))
+        elif (user[0][0] == id or user[0]) and (not matricula and curso and senha):
+            cursor.execute('UPDATE Usuario u SET curso=%s, senha=%s where u.idUsuario = %s', (curso, senha, id))
+        elif (user[0][0] == id or user[0]) and (not matricula and curso and not senha):
+            cursor.execute('UPDATE Usuario u SET curso=%s where u.idUsuario = %s', (curso, id))
+        elif (user[0][0] == id or user[0]) and (not matricula and not curso and senha):
+            cursor.execute('UPDATE Usuario u SET senha=%s where u.idUsuario = %s', (senha, id))
+        conn.commit()
+        cursor.close()
+        conn.close()
+        return redirect(url_for("perfil"))
+    return render_template('editarUsuario.html', user=user)

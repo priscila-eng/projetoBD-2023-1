@@ -31,7 +31,43 @@
                 > 
                     Adicionar avaliacao de disciplina
                 </a>
+                <a href="/verDenunciasTurma" 
+                        style="text-decoration: none;
+                            color: white; 
+                            font-weight: bold; 
+                        "
+                    > 
+                        Minhas denuncias turma
+                </a>
+                <a href="/verDenunciasProfessor" 
+                        style="text-decoration: none;
+                            color: white; 
+                            font-weight: bold; 
+                        "
+                    > 
+                        Minhas denuncias professor
+                </a>
             </div>
+            {% if not user%}
+                <div style="display: flex; justify-content: space-between; width: 10rem; text-align: center;">
+                    <a href="/" style="text-decoration: none; color: white; font-weight: bold;"> Entrar </a>
+                    <a href="/register" style="text-decoration: none; color: white; font-weight: bold;"> Cadastrar </a>
+                </div>
+                {% else %}
+                    <div style="display: flex; width: 10rem; gap: 1rem;">
+                        <form action="/logout" method="get">
+                            <div style="display: flex; justify-content: space-between; text-align: center;">
+                                <button type="submit" style="background: transparent; cursor: pointer; font-size: 16px; border: none; text-decoration: none; color: white; font-weight: bold;"> Sair </button>
+                            </div>
+                        </form>
+                        <form action="/perfil" method="get">
+                            <div style="display: flex; justify-content: space-between; text-align: center;">
+                                <button type="submit" style="background: transparent; cursor: pointer; font-size: 16px; border: none; text-decoration: none; color: white; font-weight: bold;"> Meu perfil </button>
+                            </div>
+                    </div>
+                    </form>
+            {% endif %}
+        </header>
             {% if not user%}
                 <div style="display: flex; justify-content: space-between; width: 10rem; text-align: center;">
                     <a href="/" style="text-decoration: none; color: white; font-weight: bold;"> Entrar </a>

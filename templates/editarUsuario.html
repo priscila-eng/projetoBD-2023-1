@@ -69,17 +69,14 @@
             {% endif %}
         </header>
         <div style="display: flex; justify-content: center; color: #4851A2">
-            <h1> Faça sua denúncia! </h1>
+            <h1> Atualize seu perfil! </h1>
         </div>
-        <form method="post" style="margin-bottom: 2rem; display: flex; justify-content: center;">
-            <div style="display: flex;flex-direction: column; gap: 1rem; align-items: left; max-width: 40rem">             
-                <div style="display: flex;flex-direction: column; gap: 1rem;">
-                    <label for="comentario" style="font-size: 16px; color: #4851A2; font-weight: bold;">Descreva o motivo:</label>
-                    <textarea name="comentario" id="comentario" style="padding: 1rem; border-radius: 10px; border: 2px solid #F0A929; font-size: 16px;"></textarea>
-                </div>
-                <div style="width: 5rem;">
-                    <button type="submit" style="background-color: #CA549B; border: none; padding: 1rem 2rem; border-radius: 10px; color: white; font-weight: bold; font-size: 16px;">Confirmar</button>
-                </div>
+        <form method="post" style="margin-bottom: 2rem;">
+            <div style="display: flex;flex-direction: column; gap: 1rem; align-items: center;">
+                <input type="text" name="curso" placeholder="Digite seu curso" style="padding: 1rem; border-radius: 10px; border: 2px solid #F0A929; font-size: 16px;"/>
+                <input type="number" name="matricula" placeholder="Corrija sua matricula" style="padding: 1rem; border-radius: 10px; border: 2px solid #F0A929; font-size: 16px;"/>
+                <input type="password" name="senha" placeholder="Digite sua nova senha" style="padding: 1rem; border-radius: 10px; border: 2px solid #F0A929; font-size: 16px;" />
+                <button type="submit" style="background-color: #CA549B; border: none; padding: 1rem 2rem; border-radius: 10px; color: white; font-weight: bold; font-size: 16px;">Atualizar</button>
             </div>
         </form>
     </body>
