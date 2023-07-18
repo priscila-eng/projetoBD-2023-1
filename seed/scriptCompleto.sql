@@ -588,7 +588,7 @@ CREATE TABLE `DenunciaProfessor` (
   KEY `fk_AvaliacaoDenunciaProfessor_1_idx` (`codAvaliacaoProfessorDenuncia`),
   KEY `fk_DenunciaProfessor_1_idx` (`codUsuarioDenunciaProfessor`),
   CONSTRAINT `fk_AvaliacaoDenunciaProfessor_1` FOREIGN KEY (`codAvaliacaoProfessorDenuncia`) REFERENCES `AvaliacaoProfessor` (`idAvaliacaoProfessor`) ON DELETE CASCADE ON UPDATE RESTRICT,
-  CONSTRAINT `fk_DenunciaProfessor_2` FOREIGN KEY (`codUsuarioDenunciaProfessor`) REFERENCES `Usuario` (`idUsuario`)
+  CONSTRAINT `fk_DenunciaProfessor_2` FOREIGN KEY (`codUsuarioDenunciaProfessor`) REFERENCES `Usuario` (`idUsuario`) ON DELETE CASCADE
 );
 
 INSERT INTO DenunciaProfessor(comentario,status,codAvaliacaoProfessorDenuncia,codUsuarioDenunciaProfessor) VALUES ('Comentario ofensivo',false,1,1);
